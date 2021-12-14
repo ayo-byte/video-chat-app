@@ -12,15 +12,19 @@ import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute'
 
 
+
 function App() {
+
   return (
     <div className="App">
       <Navbar />
+          
+          
         <Routes>
-        
         <Route path='/' element={<Home />} />
           {/* <Route path='/projects' element={<ProjectList />} /> */}
           {/* this is a protected route */}
+          
           <Route
             path='/friends'
             element={

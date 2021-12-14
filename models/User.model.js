@@ -24,6 +24,10 @@ const userSchema = new Schema(
       type: String,
       required: [true, 'Password is required.']
     },
+    friends: [{
+      type: Schema.Types.ObjectId,
+      ref: 'User.model',
+    }]
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`

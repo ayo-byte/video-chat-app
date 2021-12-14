@@ -10,8 +10,6 @@ require("./db");
 const express = require("express");
 
 
-
-
 const { isAuthenticated } = require('./middleware/jwt.js')
 
 

@@ -28,7 +28,7 @@ export default function UserDetails() {
         <div>
             <h1>User</h1>
             {/* {users.map(user => <UserCard key={user._id} {...user}/>)} */}
-
+            <UserCard />
         
         </div>
     )
