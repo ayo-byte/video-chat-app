@@ -2,9 +2,12 @@ import React from 'react'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import { AuthContext } from '../context/auth'
+import { useContext } from 'react'
+
 
 export default function EditFriend() {
-
+    const storedToken = localStorage.getItem('authToken');
     const [name, setName] = useState('')
     const [lastName, setLastName] = useState('')
 
@@ -14,7 +17,9 @@ export default function EditFriend() {
     let navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`/api/friends/${id}`)
+        axios.get(`/api/friends/${id}`, {
+            headers: { Authorization: `Bearer ${storedToken}` },
+          })
         .then(response => {
             const {name, lastName} = response.data
             setName(name)
@@ -26,7 +31,9 @@ export default function EditFriend() {
     const handleSubmit = e => {
         e.preventDefault()
         const requestBody = {name, lastName}
-        axios.put(`/api/friends/${id}`, requestBody)
+        axios.put(`/api/friends/${id}`, requestBody, {
+            headers: { Authorization: `Bearer ${storedToken}` },
+          })
         .then(response => {
             // this is a redirect using react router
             navigate(`/friends/${id}`)
@@ -35,7 +42,9 @@ export default function EditFriend() {
     }
 
     const deleteFriend = () => {
-        axios.delete(`/api/friends/${id}`)
+        axios.delete(`/api/friends/${id}`, {
+            headers: { Authorization: `Bearer ${storedToken}` },
+          })
         .then(() => {
             // redirect to friend list
             navigate('/friends')
@@ -55,5 +64,6 @@ export default function EditFriend() {
         </form>
         <button onClick={deleteFriend}>Delete Friend</button>
      </div>
+    
     )
 }

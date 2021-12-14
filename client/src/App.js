@@ -35,6 +35,8 @@ function App() {
         <Route path='/friends/edit/:id' element={<EditFriend />} />
         <Route path='/userProfile' element={<UserDetails />} />
         <Route path='/signup' element={<Signup />} />
+        {/* <Route path='/userprofile/:id' element={<FindFriend />} /> */}
+
         <Route path='/login' element={<Login />} />
 
       </Routes>

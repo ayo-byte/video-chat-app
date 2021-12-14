@@ -17,8 +17,8 @@ export default function Navbar() {
 			{isLoggedIn ?
 				(
 					<>
-						<Link to='/friends'>
-							<button>Friends</button>
+						<Link to='/userprofile'>
+							<button>Profile</button>
 						</Link>
 						<button onClick={logoutUser}>Logout</button>
 					</>

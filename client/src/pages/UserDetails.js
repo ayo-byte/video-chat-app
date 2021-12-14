@@ -2,16 +2,22 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import axios from 'axios'
+import UserCard from '../components/UserCard'
+
+import { AuthContext } from '../context/auth'
+import { useContext } from 'react'
 
 export default function UserDetails() {
 
-    const [user, setUser] = useState(null)
+    const [users, setUser] = useState(null)
 
     const {id} = useParams()
 
     useEffect(() => {
-       
-        axios.get(`/api/userProfile`)
+        const storedToken = localStorage.getItem('authToken');
+        axios.get(`/api/userprofile/${id}`, {
+            headers: { Authorization: `Bearer ${storedToken}` },
+          })
         .then(response => {
             setUser(response.data)
         })
@@ -21,14 +27,8 @@ export default function UserDetails() {
     return (
         <div>
             <h1>User</h1>
-        {user && (
-            <>
-                    
-                <h3>{user.name} {user.lastName}</h3>
+            {/* {users.map(user => <UserCard key={user._id} {...user}/>)} */}
 
-                
-            </>
-        )}
         
         </div>
     )

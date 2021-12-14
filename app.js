@@ -9,6 +9,9 @@ require("./db");
 // https://www.npmjs.com/package/express
 const express = require("express");
 
+
+
+
 const { isAuthenticated } = require('./middleware/jwt.js')
 
 
@@ -26,7 +29,7 @@ const friends = require("./routes/friends");
 app.use("/api/friends", isAuthenticated, friends)
 
 const User = require("./routes/userprofile");
-app.use("/api", isAuthenticated, User)
+app.use("/api/userprofile", isAuthenticated, User)
 
 const auth = require("./routes/auth");
 app.use("/auth", auth)

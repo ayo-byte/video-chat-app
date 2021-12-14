@@ -1,8 +1,14 @@
 import React from 'react'
 import { useState } from 'react'
 import axios from 'axios'
+import { AuthContext } from '../context/auth'
+import { useContext } from 'react'
+
 
 export default function AddFriend(props){
+    const { user } = useContext(AuthContext);
+    
+    const storedToken = localStorage.getItem('authToken');
 
     const [name, setName] = useState('')
     const [lastName, setLastName] = useState('')
@@ -12,7 +18,9 @@ export default function AddFriend(props){
         // send a post request with the data from the state to the server
         //to create new friend
         const requestBody = {name: name, lastName: lastName}
-        axios.post('/api/friends', requestBody)
+        axios.post('/api/friends', requestBody, {
+            headers: { Authorization: `Bearer ${storedToken}` },
+          }) 
         .then(response => {
             console.log(response)
             //reset state
@@ -38,4 +46,14 @@ export default function AddFriend(props){
     )
 }
 
+
+
+
+
 //<!-- instead of adding friends manually, SEARCH db for id/friend should be implemented-->
+
+
+{/* <form action="/search" method="POST">
+      <input class="search-form" type="text" placeholder="Search for City" name="search">
+      <button class="submit-btn" type="submit">Search</button>
+    </form> */}

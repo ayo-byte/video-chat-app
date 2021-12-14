@@ -22,9 +22,9 @@ export default function Login() {
 
 		axios.post('/auth/login', requestBody)
 			.then(response => {
-				// redirect -> projects
+				// redirect -> friends
 				// navigate('/login')
-				console.log('i have a token mothafuckas', response.data.authToken)
+				console.log('i have a token', response.data.authToken)
 				const token = response.data.authToken
 				// call login user function from auth context
 				loginUser(token)

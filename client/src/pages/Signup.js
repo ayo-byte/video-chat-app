@@ -2,13 +2,18 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { AuthContext } from '../context/auth'
+import { useContext } from 'react'
+
 
 export default function Signup() {
+    const { user } = useContext(AuthContext);
 
 	const [email, setEmail] = useState('')
 	const [name, setName] = useState('')
 	const [password, setPassword] = useState('')
 	const [errorMessage, setErrorMessage] = useState(undefined)
+	const storedToken = localStorage.getItem('authToken');
 
 	const navigate = useNavigate()
 
@@ -20,7 +25,9 @@ export default function Signup() {
 		e.preventDefault()
 		const requestBody = { email, password, name }
 
-		axios.post('/auth/signup', requestBody)
+		axios.post('/auth/signup', requestBody, {
+			headers: { Authorization: `Bearer ${storedToken}`}
+		})
 			.then(response => {
 				// redirect -> login 
 				navigate('/login')

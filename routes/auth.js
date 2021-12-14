@@ -36,8 +36,8 @@ router.post('/signup', (req, res, next) => {
         // email is unique -> hash password and create user
     const salt = bcrypt.genSaltSync(saltRounds);
     const hash = bcrypt.hashSync(password, salt);
-
-    return User.create({email, name, password: hash})
+        console.log(email, name, password)
+    return User.create({email: email, username: name, password: hash})
     })
     .then(createdUser => {
        const {email, name, _id} = createdUser;
