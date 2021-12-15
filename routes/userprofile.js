@@ -12,8 +12,8 @@ const User = require('../models/User.model');
 // });
 
 router.post('/userProfile', (req, res, next) => {
-    const { name, lastName, email, username, dateOfBirth, password } = req.body
-    User.create({ name, lastName, email, username, dateOfBirth, password })
+    const { email, username, password } = req.body
+    User.create({email, username, password })
         .then(user => {
         res.status(201).json(user)
     })
@@ -37,12 +37,10 @@ router.get('/:id', (req, res, next) => {
     
 });
 
-router.put('/:id', (req, res, next) => {
-    const { name, lastName, email, username, dateOfBirth, password } = req.body
+router.put('/edit/:id', (req, res, next) => {
+    const {email, username, password } = req.body
     User.findByIdAndUpdate(req.params.id, {
-        name,
-        lastName,
-        email, username, dateOfBirth, password 
+        email, username,password 
     }, { new: true})
     .then(updatedUser => {
         res.status(200).json(updatedUser)
@@ -57,5 +55,35 @@ router.delete('/:id', (req, res, next) => {
     })
     .catch(err => next(err))
 });
+
+//adding friend
+// router.put('/friends/:id', (req, res, next) => {
+//     const friendId = req.params.id;
+//       User.findByIdAndUpdate(req.paylad.id),
+//         { $push: { friends: friendId } },
+//         { new: true }
+//         .then((collectionFromDB) => {
+//           res.status(200).json(collectionFromDB);
+//         })
+//         .catch((err) => {
+//           next(err);
+// });
+  
+// router.put('addFriend/:id', (req, res, next) => {
+//     //const { friendId } = req.body
+//     const friendId = req.payload.id
+//     const selfId = req.params.id
+
+//     User.findByIdAndUpdate(selfId, {
+//         friends: $put friendId
+//     }, { new: true})
+//     User.findByIdAndUpdate(friendId, {
+//         friends: $put selfId
+//     }, { new: true})
+//     .then(updatedUser => {
+//         res.status(200).json(updatedUser)
+//     })
+//     .catch(err => next(err))
+// });
 
 module.exports = router;

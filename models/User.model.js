@@ -11,14 +11,14 @@ const userSchema = new Schema(
       lowercase: true,
       trim: true
     },
-    name: String,
-    lastName: String,
-    dateOfBirth: {type: Date},
+    // name: String,
+    // lastName: String,
+    // dateOfBirth: {type: Date},
     username: {
       type: String,
       unique: [true, 'Username is already taken.'],
       trim: true,
-      //required: [true, 'Username is required.'] 
+      required: [true, 'Username is required.'] 
     },
     password: {
       type: String,

@@ -3,7 +3,7 @@ import {Routes, Route} from 'react-router-dom'
 import Home from './pages/Home'
 import FriendList from './pages/FriendList'
 import FriendDetails from './pages/FriendDetails'
-import EditFriend from './pages/EditFriend'
+import EditProfile from './pages/EditProfile'
 import UserDetails from './pages/UserDetails'
 import Signup from './pages/Signup'
 import Login from './pages/Login'
@@ -36,10 +36,10 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/friends' element={<FriendList />} />
         <Route path='/friends/:id' element={<FriendDetails />} />
-        <Route path='/friends/edit/:id' element={<EditFriend />} />
         <Route path='/userProfile' element={<UserDetails />} />
+        <Route path='/userprofile/edit/:id' element={<EditProfile />} />
+
         <Route path='/signup' element={<Signup />} />
-        {/* <Route path='/userprofile/:id' element={<FindFriend />} /> */}
 
         <Route path='/login' element={<Login />} />
 

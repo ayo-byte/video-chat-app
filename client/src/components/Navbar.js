@@ -11,12 +11,15 @@ export default function Navbar() {
 
 	return (
 		<nav>
-			<Link to='/friends'>
-				<button>Friends</button>
+			<Link to='/'>
+				<button>Home</button>
 			</Link>
 			{isLoggedIn ?
 				(
 					<>
+					<Link to='/friends'>
+							<button>Friends</button>
+						</Link>
 						<Link to='/userprofile'>
 							<button>Profile</button>
 						</Link>

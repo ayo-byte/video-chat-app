@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import axios from 'axios'
 import UserCard from '../components/UserCard'
+import EditProfile from '../pages/EditProfile'
 
 import { AuthContext } from '../context/auth'
 import { useContext } from 'react'
@@ -26,9 +27,15 @@ export default function UserDetails() {
 
     return (
         <div>
-            <h1>User</h1>
-            {/* {users.map(user => <UserCard key={user._id} {...user}/>)} */}
+            <h1>Your Profile</h1>
             <UserCard />
+            <button> 
+                <EditProfile />
+            </button>
+           
+            
+
+
         
         </div>
     )

@@ -7,7 +7,10 @@ export default function FriendCard({name, lastName, _id}) {
             <Link to={`/friends/${_id}`}>
                 <h3>{name} {lastName}</h3>
             </Link>
-            
+            {/* <h2>Add friend</h2>
+            <form  onSubmit={handleSubmit}>
+                <button type="submit">Add</button>
+            </form> */}
         </div>
     )
 }

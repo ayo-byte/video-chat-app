@@ -22,16 +22,30 @@ export default function FriendDetails() {
         .catch(err => console.log(err))
     }, [])
 
+    const handleSubmit = (e) => {
+		e.preventDefault();
+        axios.put(`/api/addFriend/${id}`, {
+            headers: { Authorization: `Bearer ${storedToken}` },
+          })
+        .then(response => {
+			return response.data;
+		})
+		.catch(err => {
+			return err.response.data;
+		});
+    }
+
     return (
         <div>
         {friend && (
             <>
 
-                <h3>{friend.name} {friend.lastName}</h3>
+                <h3></h3>
 
-                <Link to={`/friends/edit/${friend._id}`}>
-                    <button>Edit this friend</button>
-                </Link>
+                <h2>Add as friend</h2>
+                    <form  onSubmit={handleSubmit}>
+                        <button type="submit">Add</button>
+                </form>
             </>
         )}
         

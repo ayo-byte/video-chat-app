@@ -8,9 +8,9 @@ const saltRounds = 10
 
 // Sign Up
 router.post('/signup', (req, res, next) => {
-    const {email, password, name } = req.body;
+    const {email, password, username } = req.body;
 
-    if (email === '' || password === '' || name === '') {
+    if (email === '' || password === '' || username === '') {
         res.status(400).json({message : 'Provide email, password and name.'})
         return;
     }
@@ -36,12 +36,12 @@ router.post('/signup', (req, res, next) => {
         // email is unique -> hash password and create user
     const salt = bcrypt.genSaltSync(saltRounds);
     const hash = bcrypt.hashSync(password, salt);
-        console.log(email, name, password)
-    return User.create({email: email, username: name, password: hash})
+        console.log(email, username, password)
+    return User.create({email: email, username: username, password: hash})
     })
     .then(createdUser => {
-       const {email, name, _id} = createdUser;
-       const user = {email, name, _id}
+       const {email, username, _id} = createdUser;
+       const user = {email, username, _id}
 
        // send a response with the created user that doesnt contaon the password
        res.status(201).json({ user: user })
@@ -74,8 +74,8 @@ router.post('/login', (req, res, next) => {
 			}
 			const passwordCorrect = bcrypt.compareSync(password, foundUser.password)
 			if (passwordCorrect) {
-				const { _id, email, name } = foundUser
-				const payload = { _id, email, name }
+				const { _id, email, username } = foundUser
+				const payload = { _id, email, username }
 
 				// create the json web token
 				const authToken = jwt.sign(
