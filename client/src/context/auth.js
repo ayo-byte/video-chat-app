@@ -28,11 +28,12 @@ function AuthProviderWrapper(props) {
 		if (storedToken) {
 			axios.get('/auth/verify', { headers: { Authorization: `Bearer ${storedToken}` } })
 				.then(response => {
-					console.log(response)
+					console.log('context being set',response)
 					const user = response.data
 					setUser(user)
 					setIsLoggedIn(true)
 					setIsLoading(false)
+					console.log('context user is', user)
 				})
 				.catch(err => {
 					// the token is invalid

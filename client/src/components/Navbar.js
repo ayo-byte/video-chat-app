@@ -7,8 +7,8 @@ export default function Navbar() {
 
 	const { isLoggedIn, user, logoutUser } = useContext(AuthContext)
 
-	console.log('useruhjhgkjhgkjhgkjhg', user)
-
+	console.log('we are in the navbar and the logged in user id is this', user)
+	//const userId = user._id
 	return (
 		<nav>
 			<Link to='/'>
@@ -20,7 +20,7 @@ export default function Navbar() {
 					<Link to='/friends'>
 							<button>Friends</button>
 						</Link>
-						<Link to='/userprofile/${user.id}'>
+						< Link to= {`/userprofile/${user._id}`} >
 							<button>Profile</button>
 						</Link>
 						<button onClick={logoutUser}>Logout</button>

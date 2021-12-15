@@ -63,7 +63,7 @@ export default function UserCard({name, _id}) {
                 </form>
                 <h3>My Friends</h3>
                 <div>
-                {friends.map(friend => <p>{friend}</p>)} 
+                 {friends.map(friend => <p><a href={`/userprofile/${friend}`}>{friend}</a></p>)} 
                 </div>
 
                 <div>
@@ -74,7 +74,6 @@ export default function UserCard({name, _id}) {
                 </div>
                 
                 <p>List of friends should be displayed here</p>
-                <p>{user.friends}</p>
                 </>
            )} 
             
