@@ -17,7 +17,7 @@ export default function FriendList() {
     const storedToken = localStorage.getItem('authToken');
     const getAllFriends = () => {
         axios
-          .get('/api/friends', {
+          .get('/api/userprofile', {
             headers: { Authorization: `Bearer ${storedToken}` },
           })
           .then((response) => {
@@ -33,11 +33,13 @@ export default function FriendList() {
 // if (friends.length === 0){
 //     return <h1>No friends</h1>
 // }
-
+      console.log(user)
+      console.log('friends', user.friends)
     return (
         <>
             <h1>All friends</h1>
-            {friends.map(friend => <FriendCard key={friend._id} {...friend}/>)}
+            
+            {friends.map(friend => <FriendCard key={friends._id} {...friends}/>)}
             <AddFriend refreshFriends={getAllFriends}/>
 
         </>

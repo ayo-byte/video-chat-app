@@ -10,38 +10,35 @@ export default function AddFriend(props){
     
     const storedToken = localStorage.getItem('authToken');
 
-    const [name, setName] = useState('')
-    const [lastName, setLastName] = useState('')
+    const [username, setUsername] = useState('')
 
-    const handleSubmit = e => {
-        e.preventDefault()
+    const handleSubmit = (e) => {
+        e.preventDefault();
         // send a post request with the data from the state to the server
         //to create new friend
-        const requestBody = {name: name, lastName: lastName}
-        axios.post('/api/friends', requestBody, {
+        const requestBody = { username: username, user: user };
+        //console.log('the body', requestBody);
+        axios
+          .put('/api/userprofile/add', requestBody, {
             headers: { Authorization: `Bearer ${storedToken}` },
-          }) 
-        .then(response => {
-            console.log(response)
-            //reset state
-            setName('')
-            setLastName('')
-            //automatic reload friends after adding
-            props.refreshFriends()
-        })
-        .catch(err => console.log(err))
-    }
-
+          })
+          .then((response) => {
+            console.log(response);
+    
+            setUsername('');
+        
+          })
+          .catch((err) => console.log(err));
+      };
     return (
         <div>
            <h1>Add a Friend</h1>
-           <form onSubmit={handleSubmit}>
-               <label htmlFor="name">Name: </label>
-               <input id="name" type="text" value={name} onChange={e => setName(e.target.value)}/>
-               <label htmlFor="lastName">Lastname: </label>
-               <input id="lastName" type="text" value={lastName} onChange={e => setLastName(e.target.value)}/>
+            <form onSubmit={handleSubmit}>
+               <label htmlFor="username">Username: </label>
+               <input id="name" type="text" value={username} onChange={e => setUsername(e.target.value)}/>
+             
                <button type="submit">Add this Friend</button>
-           </form>
+           </form> 
         </div>
     )
 }

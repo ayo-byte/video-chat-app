@@ -14,21 +14,26 @@ export default function UserCard({name, _id}) {
     const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [friends, setFriends] = useState('')
+
 
     const { id } = useParams()
-    console.log(id)
+    console.log('id is the following',id)
 
     let navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`/api/userprofile/edit/${id}`, {
+        axios.get(`/api/userprofile/${id}`, {
             headers: { Authorization: `Bearer ${storedToken}` },
           })
         .then(response => {
-            const {username, email, password} = response.data
+            console.log('nblablablablabla')
+            console.log('response is the following',response.data)
+            const {username, email, password, friends} = response.data
             setUsername(username)
             setEmail(email)
             setPassword(password)
+            setFriends(friends)
 
         })
         .catch(err => console.log(err))
@@ -51,22 +56,16 @@ export default function UserCard({name, _id}) {
         <div>
             {user &&(
                 <>
-                 <p>Username: {user.username}</p>
-                 <p>Email: {user.email}</p>
-                 
-                 {/* <h1>Edit Friend</h1> */}
-                {/* <form onSubmit={handleSubmit}>
-                    <label htmlFor="name">Name: </label>
-                    <input id="name" type="text" value={name} onChange={e => setUsername(e.target.value)}/>
-                    <label htmlFor="lastName">Lastname: </label>
-                    <input id="lastName" type="text" value={lastName} onChange={e => setLastName(e.target.value)}/>
-                    <button type="submit">Update this Friend</button>
-                </form> */}
-                {/* <button onClick={deleteFriend}>Delete Friend</button> */}
+                 <p>Username: {username}</p>
+                 <p>Email: {email}</p>
                 <form  onSubmit={handleSubmit}>
                     <button type="submit">Edit Profile</button>
                 </form>
                 <h3>My Friends</h3>
+                <div>
+                {friends.map(friend => <p>{friend}</p>)} 
+                </div>
+
                 <div>
                 <form id="form"> 
                     <input type="search" id="query" name="q" placeholder="Find a Friend..."/>
@@ -74,7 +73,7 @@ export default function UserCard({name, _id}) {
                 </form>
                 </div>
                 
-               
+                <p>List of friends should be displayed here</p>
                 <p>{user.friends}</p>
                 </>
            )} 

@@ -24,10 +24,10 @@ require("./config")(app);
 //app.use("/api", allRoutes);
 
 const friends = require("./routes/friends");
-app.use("/api/friends", isAuthenticated, friends)
+app.use("/api/friends", friends)
 
 const User = require("./routes/userprofile");
-app.use("/api/userprofile", isAuthenticated, User)
+app.use("/api/userprofile", User)
 
 const auth = require("./routes/auth");
 app.use("/auth", auth)

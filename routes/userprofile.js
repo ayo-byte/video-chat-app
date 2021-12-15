@@ -20,6 +20,15 @@ router.post('/userProfile', (req, res, next) => {
     .catch(err => next(err))
 });
 
+// get all friends
+router.get('/friends', (req, res, next) => {
+	User.find()
+		.then(friends => {
+			res.status(200).json(projects)
+		})
+		.catch(err => next(err))
+});
+
 //get a specific friend
 
 router.get('/:id', (req, res, next) => {
@@ -57,6 +66,34 @@ router.delete('/:id', (req, res, next) => {
 });
 
 //adding friend
+//adding friend
+router.put('/add', (req, res, next) => {
+    const { username } = req.body;
+  
+    User.findOne({ username: username })
+      .then((addedFriend) => {
+      //   console.log('the friend', addedFriend);
+        let friendId = addedFriend._id;
+      //   console.log('friendID', friendId);
+        User.findByIdAndUpdate(
+          req.payload._id,
+          {
+            $push: { friends: friendId },
+          },
+          { new: true }
+        )
+          .then((user) => {
+            console.log('the user', user);
+            res.status(200).json(user);
+          })
+          .catch((err) => {
+            next(err);
+          });
+      })
+      .catch((err) => {
+        next(err);
+      });
+  });
 // router.put('/friends/:id', (req, res, next) => {
 //     const friendId = req.params.id;
 //       User.findByIdAndUpdate(req.paylad.id),

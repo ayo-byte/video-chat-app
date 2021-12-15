@@ -40,8 +40,6 @@ export default function FriendDetails() {
         {friend && (
             <>
 
-                <h3></h3>
-
                 <h2>Add as friend</h2>
                     <form  onSubmit={handleSubmit}>
                         <button type="submit">Add</button>

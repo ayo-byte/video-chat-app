@@ -10,7 +10,8 @@ import Login from './pages/Login'
 import JWTest from './JWTest';
 import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute'
-
+import { Typography, AppBar } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
 
 function App() {
@@ -19,7 +20,9 @@ function App() {
     <div className="App">
       
       <Navbar />
-          
+        < AppBar  position="static" color="inherit">
+          <Typography variant="h3" align="center">Video App</Typography>
+        </AppBar>
           
         <Routes>
         <Route path='/' element={<Home />} />
@@ -37,7 +40,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/friends' element={<FriendList />} />
         <Route path='/friends/:id' element={<FriendDetails />} />
-        <Route path='/userProfile' element={<UserDetails />} />
+        <Route path='/userProfile/:id' element={<UserDetails />} />
         <Route path='/userprofile/edit/:id' element={<EditProfile />} />
 
         <Route path='/signup' element={<Signup />} />

@@ -29,13 +29,7 @@ export default function UserDetails() {
         <div>
             <h1>Your Profile</h1>
             <UserCard />
-            <EditProfile />
             
-           
-            
-
-
-        
         </div>
     )
 }
