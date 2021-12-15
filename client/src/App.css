@@ -1,3 +1,7 @@
+*{
+  font-family: 'Raleway', sans-serif;
+}
+
 .App {
   text-align: center;
 }
@@ -35,4 +39,13 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+button {
+border: 1px solid gray;
+border-radius: 20px;
+padding: 10px;
+margin: 10px;
+padding-left: 15px;
+padding-right: 15px;
 }

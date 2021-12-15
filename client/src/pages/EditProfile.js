@@ -62,7 +62,7 @@ export default function EditProfile() {
         <form onSubmit={handleSubmit}>
             <label htmlFor="username">Username: </label>
             <input id="username" type="text" value={username} onChange={e => setUsername(e.target.value)}/>
-            <label htmlFor="email">Email: </label>
+            <label htmlFor="email"> Email: </label>
             <input id="email" type="text" value={email} onChange={e => setEmail(e.target.value)}/>
             {/* <label htmlFor="password">Password: </label>
             <input id="password" type="text" value={password} onChange={e => setPassword(e.target.value)}/> */}

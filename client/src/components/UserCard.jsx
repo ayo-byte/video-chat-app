@@ -21,7 +21,7 @@ export default function UserCard({name, _id}) {
     let navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`/api/userprofile/${id}`, {
+        axios.get(`/api/userprofile/edit/${id}`, {
             headers: { Authorization: `Bearer ${storedToken}` },
           })
         .then(response => {
@@ -36,7 +36,7 @@ export default function UserCard({name, _id}) {
     const handleSubmit = e => {
         e.preventDefault()
         const requestBody = {username, email, password}
-        axios.put(`/api/userprofile/${id}`, requestBody, {
+        axios.put(`/api/userprofile/edit/${id}`, requestBody, {
             headers: { Authorization: `Bearer ${storedToken}` },
           })
         .then(response => {
@@ -53,6 +53,7 @@ export default function UserCard({name, _id}) {
                 <>
                  <p>Username: {user.username}</p>
                  <p>Email: {user.email}</p>
+                 
                  {/* <h1>Edit Friend</h1> */}
                 {/* <form onSubmit={handleSubmit}>
                     <label htmlFor="name">Name: </label>
@@ -65,6 +66,16 @@ export default function UserCard({name, _id}) {
                 <form  onSubmit={handleSubmit}>
                     <button type="submit">Edit Profile</button>
                 </form>
+                <h3>My Friends</h3>
+                <div>
+                <form id="form"> 
+                    <input type="search" id="query" name="q" placeholder="Find a Friend..."/>
+                    <button>Search</button>
+                </form>
+                </div>
+                
+               
+                <p>{user.friends}</p>
                 </>
            )} 
             
