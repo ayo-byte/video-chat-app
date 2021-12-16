@@ -12,7 +12,11 @@ export default function Navbar() {
 	return (
 		<nav>
 			
-			<Link to='/'>
+			
+			{isLoggedIn ?
+				(
+					<>
+					<Link to='/'>
 				<button className="nav-btn">
 				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-camera-reels-fill" viewBox="0 0 16 16">
 					<path d="M6 3a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
@@ -22,9 +26,6 @@ export default function Navbar() {
 
 				</button>
 			</Link>
-			{isLoggedIn ?
-				(
-					<>
 					<Link to='/friends'>
 							<button className="nav-btn">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16">
@@ -48,7 +49,10 @@ export default function Navbar() {
 							</svg>
 						</button>
 						<br></br>
-						<b className="font-green">User: {user.username}</b>
+						<div className="user-display">
+							<b className="font-green">User: {user.username}</b>
+
+						</div>
 					</>
 				) : (
 					<>

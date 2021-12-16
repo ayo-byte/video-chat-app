@@ -12,13 +12,14 @@ import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute'
 import { Typography, AppBar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import logo from './logo_cropped.png'; // Tell webpack this JS file uses this image
 
 
 function App() {
 
   return (
     <div className="App">
-      <img src="/public/logo.png"/> 
+      <img src={logo} className="logo"/> 
       <Navbar />
         {/* < AppBar  position="static" color="inherit">
           <Typography variant="h3" align="center">Video App</Typography>
