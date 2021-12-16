@@ -59,16 +59,16 @@ export default function EditProfile() {
     return (
         <div>
         <h1>Edit Profile</h1>
-        <form onSubmit={handleSubmit}>
+        {/* <form onSubmit={handleSubmit}>
             <label htmlFor="username">Username: </label>
             <input id="username" type="text" value={username} onChange={e => setUsername(e.target.value)}/>
             <label htmlFor="email"> Email: </label>
             <input id="email" type="text" value={email} onChange={e => setEmail(e.target.value)}/>
             {/* <label htmlFor="password">Password: </label>
             <input id="password" type="text" value={password} onChange={e => setPassword(e.target.value)}/> */}
-            <button type="submit">Update my Profile</button>
+            {/* <button type="submit">Update my Profile</button>
         </form>
-        <button onClick={deleteProfile}>Delete my Profile</button>
+        <button onClick={deleteProfile}>Delete my Profile</button> */} 
      </div>
     
     )

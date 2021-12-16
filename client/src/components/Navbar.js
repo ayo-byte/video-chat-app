@@ -24,7 +24,7 @@ export default function Navbar() {
 							<button>Profile</button>
 						</Link>
 						<button onClick={logoutUser}>Logout</button>
-						<b>{user.username}</b>
+						<b className="font-green">User: {user.username}</b>
 					</>
 				) : (
 					<>

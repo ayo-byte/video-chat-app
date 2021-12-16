@@ -78,16 +78,19 @@ export default function UserCard({name, _id}) {
 	// 		})
 	// 		.catch(err => console.log(err))
 	// }
-
+    if (friends === ''){
+        return <></>
+    }
     return (
         <div>
             {user &&(
                 <>
                  <p>Username: {username}</p>
                  <p>Email: {email}</p>
-                <form  onSubmit={handleSubmit}>
+                <Link to={`/api/userprofile/edit/${id}`}>
                     <button type="submit">Edit Profile</button>
-                </form>
+                </Link>
+                
                 <h3>My Friends</h3>
                 <div>
                     {friends}

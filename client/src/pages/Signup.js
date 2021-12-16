@@ -39,16 +39,18 @@ export default function Signup() {
 	}
 
 	return (
-		<div>
+		<div className="column">
 			<h1>Signup</h1>
 			<form onSubmit={handleSubmit}>
-				<label>Email: </label>
-				<input type="text" name="email" value={email} onChange={handleEmail} />
-				<label>Password: </label>
-				<input type="password" value={password} onChange={handlePassword} />
-				<label>Username: </label>
-				<input type="text" value={username} onChange={handleUsername} />
-
+				<label className="spacing">Email: </label>
+				<input className="spacing input-border" type="text" name="email" value={email} onChange={handleEmail} />
+				<br></br>
+				<label className="spacing">Password: </label>
+				<input className="spacing input-border" type="password" value={password} onChange={handlePassword} />
+				<br></br>
+				<label className="spacing">Username: </label>
+				<input className="spacing input-border" type="text" value={username} onChange={handleUsername} />
+				<br></br>
 				<button type="submit">Sign Up</button>
 			</form>
 
