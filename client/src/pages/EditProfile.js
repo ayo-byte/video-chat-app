@@ -7,34 +7,58 @@ import { useContext } from 'react'
 
 
 export default function EditProfile() {
+    const { isLoggedIn, user, logoutUser } = useContext(AuthContext)
+
     const storedToken = localStorage.getItem('authToken');
     const [username, setUsername] = useState('')
+    const [displayName, setDisplayName] = useState('')
+
     const [email, setEmail] = useState('')
     // const [password, setPassword] = useState('')
 
-    const { id } = useParams()
+    // const { id } = useParams()
+    // console.log(id)
+
+    // let navigate = useNavigate();
+
+    // useEffect(() => {
+    //     axios.get(`/api/userprofile/${id}`, {
+    //         headers: { Authorization: `Bearer ${storedToken}` },
+    //       })
+    //     .then(response => {
+    //         const {username, email} = response.data
+    //         setUsername(username)
+    //         setEmail(email)
+    //         //setPassword(password)
+
+    //     })
+    //     .catch(err => console.log(err))
+    // }, [])
+
+    const { id } = useParams();
     console.log(id)
+    console.log('this is the username', id);
 
     let navigate = useNavigate();
 
-    useEffect(() => {
-        axios.get(`/api/userprofile/${id}`, {
-            headers: { Authorization: `Bearer ${storedToken}` },
-          })
-        .then(response => {
-            const {username, email} = response.data
-            setUsername(username)
-            setEmail(email)
-            //setPassword(password)
-
-        })
-        .catch(err => console.log(err))
-    }, [])
+  useEffect(() => {
+    axios
+      .get(`/api/userprofile/${username}`, {
+        headers: { Authorization: `Bearer ${storedToken}` },
+      })
+      .then((response) => {
+        const { username, email } = response.data;
+        setUsername(username);
+        setEmail(email);
+        //setPassword(password)
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
     const handleSubmit = e => {
         e.preventDefault()
-        const requestBody = {username, email}
-        axios.put(`/api/userprofile/${id}`, requestBody, {
+        const requestBody = {displayName, email}
+        axios.put(`/api/userprofile/edit/${id}`, requestBody, {
             headers: { Authorization: `Bearer ${storedToken}` },
           })
         .then(response => {
@@ -51,7 +75,8 @@ export default function EditProfile() {
           })
         .then(() => {
             // redirect to friend list
-            navigate('/')
+            logoutUser()
+            
         })
         .catch(err => console.log(err))
     }
@@ -59,16 +84,18 @@ export default function EditProfile() {
     return (
         <div>
         <h1>Edit Profile</h1>
-        {/* <form onSubmit={handleSubmit}>
-            <label htmlFor="username">Username: </label>
-            <input id="username" type="text" value={username} onChange={e => setUsername(e.target.value)}/>
-            <label htmlFor="email"> Email: </label>
-            <input id="email" type="text" value={email} onChange={e => setEmail(e.target.value)}/>
-            {/* <label htmlFor="password">Password: </label>
-            <input id="password" type="text" value={password} onChange={e => setPassword(e.target.value)}/> */}
-            {/* <button type="submit">Update my Profile</button>
+        <form onSubmit={handleSubmit}>
+            <label className="spacing" htmlFor="displayName">Display Name: </label>
+            <input className="spacing input-border" id="displayName" type="text" placeholder="Type new display name..."value={displayName} onChange={e => setDisplayName(e.target.value)}/>
+            <br></br>
+            <label className="spacing" htmlFor="email"> Email: </label>
+            <input className="spacing input-border" id="email" type="text" placeholder="Type new email..." value={email} onChange={e => setEmail(e.target.value)}/>
+            <br></br>
+             {/* <label htmlFor="password">Password: </label>
+            <input id="password" type="text" value={password} onChange={e => setPassword(e.target.value)}/> */} 
+            <button type="submit">Update my Profile</button>
         </form>
-        <button onClick={deleteProfile}>Delete my Profile</button> */} 
+        <button onClick={deleteProfile}>Delete my Profile</button> 
      </div>
     
     )

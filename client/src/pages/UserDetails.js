@@ -14,6 +14,8 @@ export default function UserDetails() {
 
     const {id} = useParams()
 
+    const { isLoggedIn, user, logoutUser } = useContext(AuthContext)
+
     useEffect(() => {
         const storedToken = localStorage.getItem('authToken');
         axios.get(`/api/userprofile/${id}`, {
@@ -27,6 +29,7 @@ export default function UserDetails() {
 
     return (
         <div>
+            {/* { user.username === "johanna" } */}
             <h1>Your Profile</h1>
             <UserCard />
             

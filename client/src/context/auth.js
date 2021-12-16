@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 const AuthContext = React.createContext();
+
 
 function AuthProviderWrapper(props) {
 	const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -13,6 +15,7 @@ function AuthProviderWrapper(props) {
 		localStorage.setItem('authToken', token)
 		verifyStoredToken();
 	}
+	let navigate = useNavigate();
 
 	const logoutUser = () => {
 		// remove the token from local storage
@@ -20,6 +23,9 @@ function AuthProviderWrapper(props) {
 		// update state
 		setIsLoggedIn(false)
 		setUser(null)
+		//navigate
+		navigate('/login')
+
 	}
 
 	const verifyStoredToken = () => {

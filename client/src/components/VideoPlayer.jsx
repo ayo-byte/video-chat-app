@@ -1,5 +1,7 @@
 import React, { useContext } from 'react';
 import { Grid, Typography, Paper, makeStyles } from '@material-ui/core';
+import { AuthContext } from '../context/auth'
+
 
 import { SocketContext } from '../context/socket';
 
@@ -25,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 const VideoPlayer = () => {
   const { name, callAccepted, myVideo, userVideo, callEnded, stream, call } = useContext(SocketContext);
+  const {displayName } = useContext(AuthContext)
   const classes = useStyles();
   
   return (
@@ -32,7 +35,7 @@ const VideoPlayer = () => {
       {stream && (
         <Paper className={classes.paper}>
           <Grid item xs={12} md={6}>
-            <Typography variant="h5" gutterBottom>{name || 'Name'}</Typography>
+            <Typography variant="h5" gutterBottom>{displayName || 'Name'}</Typography>
             <video playsInline muted ref={myVideo} autoPlay className={classes.video} />
           </Grid>
         </Paper>

@@ -32,13 +32,16 @@ router.get('/friends', (req, res, next) => {
 //get a specific friend
 
 router.get('/:username', (req, res, next) => {
+    //console.log(req.params.username,'aaaaaaa')
     User.findOne({username:req.params.username})
     .then(user => {
         // check for a valid mongo object id
         // mongoose.Types.ObjectId.isValid(req.params.id)
         if (!user) {
+            console.log('not found')
             res.status(404).json(user)
         } else {
+            console.log(user)
             res.status(200).json(user)
         }
     })
@@ -46,10 +49,10 @@ router.get('/:username', (req, res, next) => {
     
 });
 
-router.put('/edit/:id', (req, res, next) => {
-    const {email, username, password } = req.body
-    User.findByIdAndUpdate(req.params.id, {
-        email, username,password 
+router.put('/edit/:username', (req, res, next) => {
+    const {email, displayName, password } = req.body
+    User.findOneAndUpdate({username:req.params.username}, {
+        email, displayName, password 
     }, { new: true})
     .then(updatedUser => {
         res.status(200).json(updatedUser)
@@ -57,8 +60,8 @@ router.put('/edit/:id', (req, res, next) => {
     .catch(err => next(err))
 });
 
-router.delete('/:id', (req, res, next) => {
-    User.findByIdAndDelete(req.params.id)
+router.delete('/:username', (req, res, next) => {
+    User.findOneAndDelete({username:req.params.username})
     .then(() => {
         res.status(200).json({message: 'Profile deleted'})
     })

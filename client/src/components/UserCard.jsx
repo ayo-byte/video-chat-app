@@ -12,6 +12,7 @@ export default function UserCard({name, _id}) {
     console.log(user)
     const storedToken = localStorage.getItem('authToken');
     const [username, setUsername] = useState('')
+    const [displayName, setDisplayName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [friends, setFriends] = useState('')
@@ -29,11 +30,12 @@ export default function UserCard({name, _id}) {
         .then(response => {
             console.log('nblablablablabla')
             console.log('response is the following',response.data)
-            const {username, email, password, friends} = response.data
+            const {username, email, password, friends, displayName} = response.data
             setUsername(username)
             setEmail(email)
             setPassword(password)
             setFriends(friends)
+            setDisplayName(displayName)
 
         })
         .catch(err => console.log(err))
@@ -86,14 +88,15 @@ export default function UserCard({name, _id}) {
             {user &&(
                 <>
                  <p>Username: {username}</p>
+                 <p>Display Name: {displayName}</p>
                  <p>Email: {email}</p>
-                <Link to={`/api/userprofile/edit/${id}`}>
+                <Link to={`/userprofile/edit/${id}`}>
                     <button type="submit">Edit Profile</button>
                 </Link>
                 
                 <h3>My Friends</h3>
                 <div>
-                    {friends}
+                   
                  {friends.map(friend => 
                     <p>
                         <a href={`/userprofile/${friend}`}>{friend}</a>
@@ -107,13 +110,12 @@ export default function UserCard({name, _id}) {
                 </div>
 
                 <div>
-                <form id="form"> 
+                {/* <form id="form"> 
                     <input type="search" id="query" name="q" placeholder="Find a Friend..."/>
                     <button>Search</button>
-                </form>
+                </form> */}
                 </div>
                 
-                <p>List of friends should be displayed here</p>
                 </>
            )} 
             
