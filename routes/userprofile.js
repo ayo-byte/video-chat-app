@@ -31,8 +31,8 @@ router.get('/friends', (req, res, next) => {
 
 //get a specific friend
 
-router.get('/:id', (req, res, next) => {
-    User.findById(req.params.id)
+router.get('/:username', (req, res, next) => {
+    User.findOne({username:req.params.username})
     .then(user => {
         // check for a valid mongo object id
         // mongoose.Types.ObjectId.isValid(req.params.id)
@@ -68,20 +68,41 @@ router.delete('/:id', (req, res, next) => {
 //adding friend
 //adding friend
 router.put('/add', (req, res, next) => {
-    const { username } = req.body;
-  
-    User.findOne({ username: username })
-      .then((addedFriend) => {
+    const otherUserName = req.body.username;
+    const selfUser = req.body.user
+    console.log(selfUser.username,otherUserName)
+    User.findOneAndUpdate({ username: selfUser.username}, {$push: { friends: otherUserName }},{ new: true })
+      .then((myself) => {
       //   console.log('the friend', addedFriend);
-        let friendId = addedFriend._id;
+        // let friendId = addedFriend._id;
       //   console.log('friendID', friendId);
-        User.findByIdAndUpdate(
-          req.payload._id,
-          {
-            $push: { friends: friendId },
-          },
-          { new: true }
-        )
+      User.findOneAndUpdate({ username: otherUserName}, {$push: { friends: selfUser.username }},{ new: true })
+
+          .then((user) => {
+            console.log('the user', user);
+            res.status(200).json(user);
+          })
+          .catch((err) => {
+            next(err);
+          });
+      })
+      .catch((err) => {
+        next(err);
+      });
+  });
+
+
+  router.delete('/remove', (req, res, next) => {
+    const otherUserName = req.body.username;
+    const selfUser = req.body.user
+    console.log(selfUser.username,otherUserName)
+    User.findOneAndUpdate({ username: selfUser.username}, {$pull: { friends: otherUserName }},{ new: true })
+      .then((myself) => {
+      //   console.log('the friend', addedFriend);
+        // let friendId = addedFriend._id;
+      //   console.log('friendID', friendId);
+      User.findOneAndUpdate({ username: otherUserName}, {$pull: { friends: selfUser.username }},{ new: true })
+
           .then((user) => {
             console.log('the user', user);
             res.status(200).json(user);

@@ -20,10 +20,11 @@ export default function Navbar() {
 					<Link to='/friends'>
 							<button>Friends</button>
 						</Link>
-						< Link to= {`/userprofile/${user._id}`} >
+						< Link to= {`/userprofile/${user.username}`} >
 							<button>Profile</button>
 						</Link>
 						<button onClick={logoutUser}>Logout</button>
+						<b>{user.username}</b>
 					</>
 				) : (
 					<>

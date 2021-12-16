@@ -52,6 +52,33 @@ export default function UserCard({name, _id}) {
         })
     }
 
+    // const removeFriend = (e) => {
+    //     e.preventDefault();
+    //     // send a post request with the data from the state to the server
+    //     //to create new friend
+    //     const requestBody = { username: friend, user: user };
+    //     //console.log('the body', requestBody);
+    //     axios
+    //       .delete('/api/userprofile/remove', requestBody, {
+    //         headers: { Authorization: `Bearer ${storedToken}` },
+    //       })
+    //       .then((response) => {
+    //         console.log(response);
+    
+    //         setUsername('');
+        
+    //       })
+    //       .catch((err) => console.log(err));
+    //     }
+    // const removeFriend = () => {
+	// 	axios.delete(`/api/userprofile/${id}`)
+	// 		.then(() => {
+	// 			// redirect to the projects list 
+	// 			navigate('/projects')
+	// 		})
+	// 		.catch(err => console.log(err))
+	// }
+
     return (
         <div>
             {user &&(
@@ -63,7 +90,17 @@ export default function UserCard({name, _id}) {
                 </form>
                 <h3>My Friends</h3>
                 <div>
-                 {friends.map(friend => <p><a href={`/userprofile/${friend}`}>{friend}</a></p>)} 
+                    {friends}
+                 {friends.map(friend => 
+                    <p>
+                        <a href={`/userprofile/${friend}`}>{friend}</a>
+                        {/* <form onSubmit={removeFriend}>
+                         <input id="name" type="text" value={friend}/>
+             
+                         <button type="submit">Remove this Friend</button>
+           </form>  */}
+                        
+                    </p>)}
                 </div>
 
                 <div>
@@ -81,4 +118,3 @@ export default function UserCard({name, _id}) {
         </div>
     )
 }
-

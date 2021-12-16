@@ -100,7 +100,7 @@ const ContextProvider = ({ children }) => {
     }}
     >
       {children}
-    </SocketContext.Provider>
+      </SocketContext.Provider>
   );
 };
 

@@ -25,7 +25,7 @@ const userSchema = new Schema(
       required: [true, 'Password is required.']
     },
     friends: [{
-      type: Schema.Types.ObjectId,
+      type: String,
       ref: 'User.model',
     }]
   },

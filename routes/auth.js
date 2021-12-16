@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs')
 const User = require('../models/User.model')
 const jwt = require('jsonwebtoken')
 const { isAuthenticated } = require('./../middleware/jwt.js')
+//const io = require('../server').io
 
 const saltRounds = 10
 
@@ -83,6 +84,26 @@ router.post('/login', (req, res, next) => {
 					process.env.TOKEN_SECRET,
 					{ algorithm: 'HS256', expiresIn: '12h' }
 				)
+
+                //get socketId here so it can be applied to db
+                // io.on("connection", (socket) => {
+                //     let socketId = socket.id;
+                //     console.log('socketid is :', socketId)
+                //     socket.emit("me", socket.id);
+                  
+                //     socket.on("disconnect", () => {
+                //       socket.broadcast.emit("callEnded")
+                //     });
+                  
+                //     socket.on("callUser", ({ userToCall, signalData, from, name }) => {
+                //       io.to(userToCall).emit("callUser", { signal: signalData, from, name });
+                //     });
+                  
+                //     socket.on("answerCall", (data) => {
+                //       io.to(data.to).emit("callAccepted", data.signal)
+                //     });
+                //   });
+                  
 				res.status(200).json({ authToken: authToken })
                 return;
 			}
