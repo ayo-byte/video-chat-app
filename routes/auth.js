@@ -104,7 +104,8 @@ router.post('/login', (req, res, next) => {
                 //     });
                 //   });
                   
-				res.status(200).json({ authToken: authToken })
+				res.status(200).json({ authToken: authToken, username: username })
+                console.log('response is 200 and here are token and username',res)
                 return;
 			}
 			else {

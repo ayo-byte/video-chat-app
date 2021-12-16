@@ -18,11 +18,12 @@ function App() {
 
   return (
     <div className="App">
-      
+      <img src="/public/logo.png"/> 
       <Navbar />
-        < AppBar  position="static" color="inherit">
+        {/* < AppBar  position="static" color="inherit">
           <Typography variant="h3" align="center">Video App</Typography>
-        </AppBar>
+        </AppBar> */}
+        
           
         <Routes>
         <Route path='/' element={<Home />} />

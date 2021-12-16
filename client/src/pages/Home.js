@@ -10,11 +10,12 @@ export default function Home() {
         <div>
             <div>
             
-            <VideoPlayer />
-            <Sidebar>
-              <Notifications />
+             <VideoPlayer />
+            
+               <Sidebar>
+                 <Notifications />
             </Sidebar>
-          </div>
+             </div>
         </div>
     )
 }

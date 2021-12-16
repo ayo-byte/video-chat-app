@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { AuthContext } from '../context/auth'
+import { SocketContext } from '../context/socket';
 
 export default function Login() {
 
@@ -12,6 +13,8 @@ export default function Login() {
 	const navigate = useNavigate()
 
 	const { loginUser } = useContext(AuthContext)
+
+	const socket = useContext(SocketContext)
 
 	const handleEmail = e => setEmail(e.target.value)
 	const handlePassword = e => setPassword(e.target.value)
@@ -26,8 +29,23 @@ export default function Login() {
 				// navigate('/login')
 				console.log('i have a token', response.data.authToken)
 				const token = response.data.authToken
+				const username = response.data.username
 				// call login user function from auth context
 				loginUser(token)
+				socket.setUp()
+				console.log(typeof socket.me, 'SOCKETME',socket.me)
+				console.log('this is the username after login', username)
+				
+				//await?
+				axios.put(`/api/userprofile/addsocketid/${username}`, {socketId : socket.me} ,{
+					headers: { Authorization: `Bearer ${token}`},
+				  })
+				.then(response => {
+					// return response.data
+					console.log('updatedSocket')
+				})
+				.catch(err => console.log(err))
+
 				navigate('/')
 			})
 			.catch(err => {

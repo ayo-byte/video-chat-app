@@ -11,6 +11,23 @@ export default function AddFriend(props){
     const storedToken = localStorage.getItem('authToken');
 
     const [username, setUsername] = useState('')
+    const [friends, setFriends] = useState('')
+
+    // useEffect(() => {
+    //     axios.get(`/api/userprofile/${id}`, {
+    //         headers: { Authorization: `Bearer ${storedToken}` },
+    //       })
+    //     .then(response => {
+    //         console.log('nblablablablabla')
+    //         console.log('response is the following',response.data)
+    //         const {username,friends} = response.data
+    //         setUsername(username)
+    //         setFriends(friends)
+           
+
+    //     })
+    //     .catch(err => console.log(err))
+    // }, [])
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -30,15 +47,26 @@ export default function AddFriend(props){
           })
           .catch((err) => console.log(err));
       };
+      if (friends === ''){
+        return <></>
+    }
     return (
         <div>
            <h1>Add a Friend</h1>
             <form onSubmit={handleSubmit}>
-               <label htmlFor="username">Username: </label>
-               <input id="name" type="text" value={username} onChange={e => setUsername(e.target.value)}/>
-             
+               {/* <label className="spacing" htmlFor="username">Username: </label> */}
+               <input className="spacing input-border" id="name" type="text" placeholder="Type friend's username..." value={username} onChange={e => setUsername(e.target.value)}/>
+                <br></br>
                <button type="submit">Add this Friend</button>
            </form> 
+           <div>
+               {friends.map(friend => 
+                    <p>
+                        <a href={`/userprofile/${friend}`}>{friend}</a>
+                        
+                        
+                    </p>)}
+                </div>
         </div>
     )
 }

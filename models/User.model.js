@@ -28,6 +28,10 @@ const userSchema = new Schema(
       type: String,
       required: [true, 'Password is required.']
     },
+    socketId: {
+      type: String,
+    
+    },
     friends: [{
       type: String,
       ref: 'User.model',

@@ -61,7 +61,7 @@ router.put('/edit/:username', (req, res, next) => {
 });
 
 router.delete('/:username', (req, res, next) => {
-    User.findOneAndDelete({username:req.params.username})
+    User.findOneAndDelete(req.params.username)
     .then(() => {
         res.status(200).json({message: 'Profile deleted'})
     })
@@ -93,6 +93,18 @@ router.put('/add', (req, res, next) => {
         next(err);
       });
   });
+
+  //adding socketId
+  router.put('/addsocketid/:username', (req, res, next) => {
+    const {socketId } = req.body
+    User.findOneAndUpdate({username:req.params.username}, {
+        socketId 
+    }, { new: true})
+    .then(updatedUser => {
+        res.status(200).json(updatedUser)
+    })
+    .catch(err => next(err))
+});
 
 
   router.delete('/remove', (req, res, next) => {
