@@ -4,6 +4,8 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Assignment, Phone, PhoneDisabled } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import { SocketContext } from '../context/socket';
+import { AuthContext } from '../context/auth'
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,6 +39,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// function callUsername (userToCall){
+  //get user
+
+//     const [socketId, setSocketId] = useState('')
+//     const storedToken = localStorage.getItem('authToken');
+
+//     axios.get(`/api/userprofile/${userToCall}`, {
+//       headers: { Authorization: `Bearer ${storedToken}` },
+//     })
+//   .then(response => {
+//       console.log('response is the following',response.data)
+//       const {socketId} = response.data
+//       // setUsername(username)
+//       // setFriends(friends)
+//       setSocketId(socketId)
+//       console.log('blablablablablbalba', socketId)
+//       callUser(socketId)
+
+//   })
+//   .catch(err => console.log(err))
+// }
+
 const Sidebar = ({ children }) => {
   const { me, callAccepted, name, setName, callEnded, leaveCall, callUser } = useContext(SocketContext);
   const [idToCall, setIdToCall] = useState('');
@@ -49,7 +73,7 @@ const Sidebar = ({ children }) => {
           <Grid container className={classes.gridContainer}>
             <Grid item xs={12} md={6} className={classes.padding}>
               <Typography gutterBottom variant="h6">Make a call</Typography>
-              <TextField label="ID to call" value={idToCall} onChange={(e) => setIdToCall(e.target.value)} fullWidth />
+              <TextField label="Username to call" value={idToCall} onChange={(e) => setIdToCall(e.target.value)} fullWidth />
               {callAccepted && !callEnded ? (
                 <Button variant="contained" color="secondary" startIcon={<PhoneDisabled fontSize="large" />} fullWidth onClick={leaveCall} className={classes.margin}>
                   Hang Up

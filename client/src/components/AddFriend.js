@@ -1,33 +1,44 @@
-import React from 'react'
-import { useState } from 'react'
 import axios from 'axios'
 import { AuthContext } from '../context/auth'
-import { useContext } from 'react'
+
+import { useParams, Link } from 'react-router-dom'
+import VideoPlayer from '../components/VideoPlayer';
+
+import React, { useState, useContext, useEffect } from 'react';
+import { Button, TextField, Grid, Typography, Container, Paper } from '@material-ui/core';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { Assignment, Phone, PhoneDisabled } from '@material-ui/icons';
+import { makeStyles } from '@material-ui/core/styles';
+import { SocketContext } from '../context/socket';
 
 
 export default function AddFriend(props){
     const { user } = useContext(AuthContext);
-    
     const storedToken = localStorage.getItem('authToken');
-
+    const { me, callAccepted, name, setName, callEnded, leaveCall, callUser } = useContext(SocketContext);
+    // const [idToCall, setIdToCall] = useState('');
+    // const classes = useStyles();
     const [username, setUsername] = useState('')
     const [friends, setFriends] = useState('')
+    const [socketId, setSocketId] = useState('')
 
-    // useEffect(() => {
-    //     axios.get(`/api/userprofile/${id}`, {
-    //         headers: { Authorization: `Bearer ${storedToken}` },
-    //       })
-    //     .then(response => {
-    //         console.log('nblablablablabla')
-    //         console.log('response is the following',response.data)
-    //         const {username,friends} = response.data
-    //         setUsername(username)
-    //         setFriends(friends)
-           
+    const { id } = useParams()
 
-    //     })
-    //     .catch(err => console.log(err))
-    // }, [])
+    useEffect(() => {
+        axios.get(`/api/userprofile/${id}`, {
+            headers: { Authorization: `Bearer ${storedToken}` },
+          })
+        .then(response => {
+            console.log('response is the following',response.data)
+            const {username,friends, socketId} = response.data
+            setUsername(username)
+            setFriends(friends)
+            setSocketId(socketId)
+            console.log('blablablablablbalba', socketId)
+
+        })
+        .catch(err => console.log(err))
+    }, [])
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -43,7 +54,7 @@ export default function AddFriend(props){
             console.log(response);
     
             setUsername('');
-        
+            // setFriends('')
           })
           .catch((err) => console.log(err));
       };
@@ -53,6 +64,7 @@ export default function AddFriend(props){
     return (
         <div>
            <h1>Add a Friend</h1>
+           {/* <VideoPlayer /> */}
             <form onSubmit={handleSubmit}>
                {/* <label className="spacing" htmlFor="username">Username: </label> */}
                <input className="spacing input-border" id="name" type="text" placeholder="Type friend's username..." value={username} onChange={e => setUsername(e.target.value)}/>
@@ -63,6 +75,10 @@ export default function AddFriend(props){
                {friends.map(friend => 
                     <p>
                         <a href={`/userprofile/${friend}`}>{friend}</a>
+                        {/* <Button variant="contained" color="" startIcon={<Phone fontSize="large" />} fullWidth onClick={() => callUser(socketId)}>   */}
+                        {/* className={classes.margin}> */}
+                         {/* Call */}
+                       {/* </Button> */}
                         
                         
                     </p>)}
