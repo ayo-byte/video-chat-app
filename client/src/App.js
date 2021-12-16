@@ -40,8 +40,9 @@ function App() {
             }
           />
         <Route path='/' element={<Home />} />
-        <Route path='/friends' element={<FriendList />} />
-        <Route path='/friends/:id' element={<FriendDetails />} />
+        {/* <Route path='/friends' element={<FriendList />} /> */}
+        {/* <Route path='/friends/:id' element={<FriendDetails />} /> */}
+        <Route path='/userprofile/:id/friends/' element={<FriendList />} />
         <Route path='/userprofile/:id' element={<UserDetails />} />
         <Route path='/userprofile/edit/:id' element={<EditProfile />} />
 

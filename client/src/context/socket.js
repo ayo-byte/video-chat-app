@@ -1,6 +1,8 @@
 import React, { createContext, useState, useRef, useEffect } from 'react';
 import { io } from 'socket.io-client';
 import Peer from 'simple-peer';
+import axios from 'axios'
+
 
 const SocketContext = createContext();
 let socket;
@@ -18,6 +20,7 @@ const ContextProvider = ({ children }) => {
 
   const [call, setCall] = useState({});
   const [me, setMe] = useState('');
+  // const [socketId, setSocketId] = useState('');
 
     const myVideo = useRef();
   const userVideo = useRef();
@@ -74,9 +77,29 @@ const ContextProvider = ({ children }) => {
   };
 //id is passed here to select who the call is going to
   const callUser = (id) => {
+
+
+  //   axios.get(`/api/userprofile/${id}`
+  //   // , {
+  //   //   headers: { Authorization: `Bearer ${storedToken}` },
+  //   // }
+  //   )
+  // .then(response => {
+  //     console.log('response is the following',response.data)
+  //     const {socketId} = response.data
+  //     // setUsername(username)
+  //     // setFriends(friends)
+  //     setSocketId(socketId)
+  //     console.log('calling socker ID number', socketId)
+  // })
+  // .catch(err => console.log(err))
+
+
+
     const peer = new Peer({ initiator: true, trickle: false, stream });
 
     peer.on('signal', (data) => {
+      
       socket.emit('callUser', { userToCall: id, signalData: data, from: me, name });
     });
 
@@ -91,6 +114,7 @@ const ContextProvider = ({ children }) => {
     });
 
     connectionRef.current = peer;
+    
   };
 
   const leaveCall = () => {

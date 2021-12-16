@@ -4,6 +4,8 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Assignment, Phone, PhoneDisabled } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import { SocketContext } from '../context/socket';
+import { AuthContext } from '../context/auth'
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,24 +39,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const getCallerId = (e) => {
-  e.preventDefault();
-  // send a post request with the data from the state to the server
-  //to create new friend
-  const requestBody = { username: username, user: user };
-  //console.log('the body', requestBody);
-  axios
-    .put('/api/userprofile/add', requestBody, {
-      headers: { Authorization: `Bearer ${storedToken}` },
-    })
-    .then((response) => {
-      console.log(response);
+// function callUsername (userToCall){
+  //get user
 
-      setUsername('');
-  
-    })
-    .catch((err) => console.log(err));
-};
+//     const [socketId, setSocketId] = useState('')
+//     const storedToken = localStorage.getItem('authToken');
+
+//     axios.get(`/api/userprofile/${userToCall}`, {
+//       headers: { Authorization: `Bearer ${storedToken}` },
+//     })
+//   .then(response => {
+//       console.log('response is the following',response.data)
+//       const {socketId} = response.data
+//       // setUsername(username)
+//       // setFriends(friends)
+//       setSocketId(socketId)
+//       console.log('blablablablablbalba', socketId)
+//       callUser(socketId)
+
+//   })
+//   .catch(err => console.log(err))
+// }
 
 const Sidebar = ({ children }) => {
   const { me, callAccepted, name, setName, callEnded, leaveCall, callUser } = useContext(SocketContext);
