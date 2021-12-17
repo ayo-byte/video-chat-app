@@ -49,11 +49,12 @@ padding: 10px;
 margin: 10px;
 padding-left: 15px;
 padding-right: 15px;
+box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 button:hover{
   background-color:#2EE59D;
-  ;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px  ;
 }
 
 .column{
@@ -94,4 +95,10 @@ button:hover{
 
 .bigger{
   width: 200px;
+}
+
+a {
+  text-decoration: none;
+  font-weight: bold;
+  color:rgb(80, 202, 80);
 }
