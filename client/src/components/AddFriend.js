@@ -72,6 +72,7 @@ export default function AddFriend(props){
                <button type="submit">Add this Friend</button>
            </form> 
            <div>
+             <h2>All friends</h2>
                {friends.map(friend => 
                     <p>
                         <a href={`/userprofile/${friend}`}>{friend}</a>

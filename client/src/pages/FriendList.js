@@ -37,9 +37,8 @@ export default function FriendList() {
       console.log('friends', user.friends)
     return (
         <>
-            <h1>All friends</h1>
             
-            {friends.map(friend => <FriendCard key={friends._id} {...friends}/>)}
+            {/* {friends.map(friend => <FriendCard key={friends._id} {...friends}/>)} */}
             <AddFriend refreshFriends={getAllFriends}/>
 
         </>
