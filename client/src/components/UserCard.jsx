@@ -100,7 +100,9 @@ export default function UserCard({name, _id}) {
                    
                  {friends.map(friend => 
                     <p>
-                        <a href={`/userprofile/${friend}`}>{friend}</a>
+                        {/* <a href={`/userprofile/${friend}`}>{friend}</a> */}
+                        <p>{friend}</p>
+
                         {/* <form onSubmit={removeFriend}>
                          <input id="name" type="text" value={friend}/>
              

@@ -75,7 +75,9 @@ export default function AddFriend(props){
              <h2>All friends</h2>
                {friends.map(friend => 
                     <p>
-                        <a href={`/userprofile/${friend}`}>{friend}</a>
+                        {/* <a href={`/userprofile/${friend}`}>{friend}</a> */}
+                        <p>{friend}</p>
+
                         {/* <Button variant="contained" color="" startIcon={<Phone fontSize="large" />} fullWidth onClick={() => callUser(socketId)}>   */}
                         {/* className={classes.margin}> */}
                          {/* Call */}
