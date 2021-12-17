@@ -40,13 +40,14 @@ export default function GetCallerId(props){
       return (
         <div>
             <h1>Get Caller ID</h1>
-            This is the socketId: {socketId}
             <form onSubmit={getId}>
-                <label className="spacing" htmlFor="username">Username: </label> 
-               <input className="spacing input-border" id="name" type="text" placeholder="Type friend's username..." value={username} onChange={e => setUsername(e.target.value)}/>
+                {/* <label className="spacing" htmlFor="username">Username: </label>  */}
+               <input className="spacing input-border bigger" id="name" type="text" placeholder="Type friend's username..." value={username} onChange={e => setUsername(e.target.value)}/>
                 <br></br>
-               <button type="submit">Add this Friend</button>
+               <button type="submit">Get Caller ID</button>
            </form>
+           This is the Caller ID: {socketId}
+
         </div>
       )
 };

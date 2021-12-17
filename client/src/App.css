@@ -51,6 +51,11 @@ padding-left: 15px;
 padding-right: 15px;
 }
 
+button:hover{
+  background-color:#2EE59D;
+  ;
+}
+
 .column{
   display: flex;
   flex-direction: column;
@@ -85,4 +90,8 @@ padding-right: 15px;
 
 .user-display{
   margin-top: 10px;
+}
+
+.bigger{
+  width: 200px;
 }
