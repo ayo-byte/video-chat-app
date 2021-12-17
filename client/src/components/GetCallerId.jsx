@@ -21,9 +21,9 @@ export default function GetCallerId(props){
         e.preventDefault();
         // send a post request with the data from the state to the server
         //to create new friend
-        const requestBody = { username: username, user: user };
+        //const requestBody = { username: username, user: user };
         //console.log('the body', requestBody);
-           axios.get(`/api/userprofile/${id}`, {
+           axios.get(`/api/userprofile/${username}`, {
       headers: { Authorization: `Bearer ${storedToken}` },
     }
     )
@@ -40,6 +40,7 @@ export default function GetCallerId(props){
       return (
         <div>
             <h1>Get Caller ID</h1>
+            This is the socketId: {socketId}
             <form onSubmit={getId}>
                 <label className="spacing" htmlFor="username">Username: </label> 
                <input className="spacing input-border" id="name" type="text" placeholder="Type friend's username..." value={username} onChange={e => setUsername(e.target.value)}/>

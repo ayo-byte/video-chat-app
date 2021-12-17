@@ -4,6 +4,7 @@ import React from 'react'
 import VideoPlayer from '../components/VideoPlayer';
 import Sidebar from '../components/Sidebar';
 import Notifications from '../components/Notifications';
+import GetCallerId from '../components/GetCallerId';
 
 export default function Home() {
     return (
@@ -11,7 +12,7 @@ export default function Home() {
             <div>
             
              <VideoPlayer />
-            
+            <GetCallerId />
                <Sidebar>
                  <Notifications />
             </Sidebar>

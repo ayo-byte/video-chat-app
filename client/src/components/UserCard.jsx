@@ -28,7 +28,6 @@ export default function UserCard({name, _id}) {
             headers: { Authorization: `Bearer ${storedToken}` },
           })
         .then(response => {
-            console.log('nblablablablabla')
             console.log('response is the following',response.data)
             const {username, email, password, friends, displayName} = response.data
             setUsername(username)

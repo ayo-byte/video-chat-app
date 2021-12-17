@@ -30,12 +30,24 @@ const useStyles = makeStyles((theme) => ({
   },
   container: {
     width: '600px',
-    margin: '35px 0',
-    padding: 0,
+    justifyContent: 'center',
+    padding:'15px',
     [theme.breakpoints.down('xs')]: {
-      width: '80%',
+      width: '300px',
     },
+    //[theme.breakpoints.down('xs')]: {
+      //flexDirection: 'column',
+      //width: '80%',
+  //  },
   },
+  // container: {
+  //   width: '600px',
+  //   margin: '35px 0',
+  //   padding: 0,
+  //   [theme.breakpoints.down('xs')]: {
+  //     width: '80%',
+  //   },
+  // },
   margin: {
     marginTop: 20,
   },
