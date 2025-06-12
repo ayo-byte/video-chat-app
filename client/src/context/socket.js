@@ -1,8 +1,7 @@
-import React, { createContext, useState, useRef, useEffect } from 'react';
-import { io } from 'socket.io-client';
-import Peer from 'simple-peer';
-import axios from 'axios'
-
+import React, { createContext, useState, useRef, useEffect } from "react";
+import { io } from "socket.io-client";
+import Peer from "simple-peer";
+import axios from "axios";
 
 const SocketContext = createContext();
 let socket;
@@ -14,136 +13,121 @@ const ContextProvider = ({ children }) => {
   const [callAccepted, setCallAccepted] = useState(false);
   const [callEnded, setCallEnded] = useState(false);
   const [stream, setStream] = useState();
-  
-  //this line to select uder id to call?
-  const [name, setName] = useState('');
-
+  const [name, setName] = useState("");
   const [call, setCall] = useState({});
-  const [me, setMe] = useState('');
-  // const [socketId, setSocketId] = useState('');
+  const [me, setMe] = useState("");
+  const [isStreamReady, setIsStreamReady] = useState(false);
 
-    const myVideo = useRef();
+  const myVideo = useRef();
   const userVideo = useRef();
   const connectionRef = useRef();
 
-//   useEffect(() => {
-//     navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-//       .then((currentStream) => {
-//         setStream(currentStream);
-
-//         myVideo.current.srcObject = currentStream;
-//       });
-
-//      socket.on('me', (id) => setMe(id));
-
-//     socket.on('callUser', ({ from, name: callerName, signal }) => {
-//       setCall({ isReceivingCall: true, from, name: callerName, signal });
-//     });
-//   }, []);
-
-    const setUp = () => {
-        socket = io('http://localhost:5005');
-        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-        .then((currentStream) => {
-            setStream(currentStream);
-
-            myVideo.current.srcObject = currentStream;
-        });
-
-        socket.on('me', (id) => setMe(id));
-
-
-        socket.on('callUser', ({ from, name: callerName, signal }) => {
-        setCall({ isReceivingCall: true, from, name: callerName, signal });
-        });
+  // Effect to set up video stream when myVideo ref is available
+  useEffect(() => {
+    if (stream && myVideo.current) {
+      myVideo.current.srcObject = stream;
+      setIsStreamReady(true);
     }
+  }, [stream, myVideo.current]);
+
+  const setUp = () => {
+    socket = io("http://localhost:5005");
+
+    // Get user media stream
+    navigator.mediaDevices
+      .getUserMedia({ video: true, audio: true })
+      .then((currentStream) => {
+        setStream(currentStream);
+      })
+      .catch((err) => {
+        console.error("Error accessing media devices:", err);
+      });
+
+    // Set up socket event listeners
+    socket.on("me", (id) => setMe(id));
+
+    socket.on("callUser", ({ from, name: callerName, signal }) => {
+      setCall({ isReceivingCall: true, from, name: callerName, signal });
+    });
+  };
 
   const answerCall = () => {
     setCallAccepted(true);
 
     const peer = new Peer({ initiator: false, trickle: false, stream });
 
-    peer.on('signal', (data) => {
-      socket.emit('answerCall', { signal: data, to: call.from });
+    peer.on("signal", (data) => {
+      socket.emit("answerCall", { signal: data, to: call.from });
     });
 
-    peer.on('stream', (currentStream) => {
-      userVideo.current.srcObject = currentStream;
+    peer.on("stream", (currentStream) => {
+      if (userVideo.current) {
+        userVideo.current.srcObject = currentStream;
+      }
     });
 
     peer.signal(call.signal);
 
     connectionRef.current = peer;
   };
-//id is passed here to select who the call is going to
+
   const callUser = (id) => {
-
-
-  //   axios.get(`/api/userprofile/${id}`
-  //   // , {
-  //   //   headers: { Authorization: `Bearer ${storedToken}` },
-  //   // }
-  //   )
-  // .then(response => {
-  //     console.log('response is the following',response.data)
-  //     const {socketId} = response.data
-  //     // setUsername(username)
-  //     // setFriends(friends)
-  //     setSocketId(socketId)
-  //     console.log('calling socker ID number', socketId)
-  // })
-  // .catch(err => console.log(err))
-
-
-
     const peer = new Peer({ initiator: true, trickle: false, stream });
 
-    peer.on('signal', (data) => {
-      
-      socket.emit('callUser', { userToCall: id, signalData: data, from: me, name });
+    peer.on("signal", (data) => {
+      socket.emit("callUser", {
+        userToCall: id,
+        signalData: data,
+        from: me,
+        name,
+      });
     });
 
-    peer.on('stream', (currentStream) => {
-      userVideo.current.srcObject = currentStream;
+    peer.on("stream", (currentStream) => {
+      if (userVideo.current) {
+        userVideo.current.srcObject = currentStream;
+      }
     });
 
-    socket.on('callAccepted', (signal) => {
+    socket.on("callAccepted", (signal) => {
       setCallAccepted(true);
-
       peer.signal(signal);
     });
 
     connectionRef.current = peer;
-    
   };
 
   const leaveCall = () => {
     setCallEnded(true);
 
-    connectionRef.current.destroy();
+    if (connectionRef.current) {
+      connectionRef.current.destroy();
+    }
 
     window.location.reload();
   };
 
   return (
-    <SocketContext.Provider value={{
-      call,
-      callAccepted,
-      myVideo,
-      userVideo,
-      stream,
-      name,
-      setName,
-      callEnded,
-      me,
-      setUp,
-      callUser,
-      leaveCall,
-      answerCall,
-    }}
+    <SocketContext.Provider
+      value={{
+        call,
+        callAccepted,
+        myVideo,
+        userVideo,
+        stream,
+        name,
+        setName,
+        callEnded,
+        me,
+        setUp,
+        callUser,
+        leaveCall,
+        answerCall,
+        isStreamReady,
+      }}
     >
       {children}
-      </SocketContext.Provider>
+    </SocketContext.Provider>
   );
 };
 

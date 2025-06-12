@@ -1,76 +1,103 @@
-import React, { useState, useContext } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import axios from 'axios'
-import { AuthContext } from '../context/auth'
-import { SocketContext } from '../context/socket';
+import React, { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { AuthContext } from "../context/auth";
+import { SocketContext } from "../context/socket";
 
 export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(undefined);
 
-	const [email, setEmail] = useState('')
-	const [password, setPassword] = useState('')
-	const [errorMessage, setErrorMessage] = useState(undefined)
+  const navigate = useNavigate();
+  const { loginUser } = useContext(AuthContext);
+  const socket = useContext(SocketContext);
 
-	const navigate = useNavigate()
+  const handleEmail = (e) => setEmail(e.target.value);
+  const handlePassword = (e) => setPassword(e.target.value);
 
-	const { loginUser } = useContext(AuthContext)
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const requestBody = { email, password };
 
-	const socket = useContext(SocketContext)
+    axios
+      .post("/auth/login", requestBody)
+      .then((response) => {
+        console.log("i have a token", response.data.authToken);
+        const token = response.data.authToken;
+        const username = response.data.username;
 
-	const handleEmail = e => setEmail(e.target.value)
-	const handlePassword = e => setPassword(e.target.value)
+        // First login the user
+        loginUser(token);
 
-	const handleSubmit = e => {
-		e.preventDefault()
-		const requestBody = { email, password }
+        // Set up socket and wait for connection
+        socket.setUp();
 
-		axios.post('/auth/login', requestBody)
-			.then(response => {
-				// redirect -> friends
-				// navigate('/login')
-				console.log('i have a token', response.data.authToken)
-				const token = response.data.authToken
-				const username = response.data.username
-				// call login user function from auth context
-				loginUser(token)
-				socket.setUp()
-				console.log(typeof socket.me, 'SOCKETME',socket.me)
-				console.log('this is the username after login', username)
-				
-				//await?
-				axios.put(`/api/userprofile/addsocketid/${username}`, {socketId : socket.me} ,{
-					headers: { Authorization: `Bearer ${token}`},
-				  })
-				.then(response => {
-					// return response.data
-					console.log('updatedSocket')
-				})
-				.catch(err => console.log(err))
+        // Wait for socket.me to be available
+        const checkSocketId = setInterval(() => {
+          if (socket.me) {
+            clearInterval(checkSocketId);
+            console.log("Socket ID available:", socket.me);
 
-				navigate('/')
-			})
-			.catch(err => {
-				const errorDescription = err.response.data.message
-				setErrorMessage(errorDescription)
-			})
-	}
+            // Now save the socket ID
+            axios
+              .put(
+                `/api/userprofile/addsocketid/${username}`,
+                { socketId: socket.me },
+                { headers: { Authorization: `Bearer ${token}` } }
+              )
+              .then((response) => {
+                console.log("Socket ID updated successfully");
+                navigate("/");
+              })
+              .catch((err) => {
+                console.error("Error updating socket ID:", err);
+                navigate("/");
+              });
+          }
+        }, 100); // Check every 100ms
 
-	return (
-		<div>
-			<h1>Login</h1>
-			<form onSubmit={handleSubmit}>
-				<label className="spacing">Email: </label>
-				<input className="spacing input-border" type="text" name="email" value={email} onChange={handleEmail} />
-				<br></br>
-				<label className="spacing">Password: </label>
-				<input className="spacing input-border" type="password" value={password} onChange={handlePassword} />
+        // Clear interval after 5 seconds if socket ID never becomes available
+        setTimeout(() => {
+          clearInterval(checkSocketId);
+          console.log("Socket ID setup timed out");
+          navigate("/");
+        }, 5000);
+      })
+      .catch((err) => {
+        const errorDescription = err.response.data.message;
+        setErrorMessage(errorDescription);
+      });
+  };
 
-				<button type="submit">Log in</button>
-			</form>
+  return (
+    <div>
+      <h1>Login</h1>
+      <form onSubmit={handleSubmit}>
+        <label className="spacing">Email: </label>
+        <input
+          className="spacing input-border"
+          type="text"
+          name="email"
+          value={email}
+          onChange={handleEmail}
+        />
+        <br></br>
+        <label className="spacing">Password: </label>
+        <input
+          className="spacing input-border"
+          type="password"
+          value={password}
+          onChange={handlePassword}
+        />
 
-			{errorMessage && <p>{errorMessage}</p>}
+        <button type="submit">Log in</button>
+      </form>
 
-			<p>Don't have an account?</p>
-			<Link to='/signup'>Signup</Link>
-		</div>
-	)
+      {errorMessage && <p>{errorMessage}</p>}
+
+      <p>Don't have an account?</p>
+      <Link to="/signup">Signup</Link>
+    </div>
+  );
 }

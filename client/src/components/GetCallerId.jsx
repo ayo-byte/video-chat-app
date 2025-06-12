@@ -5,8 +5,7 @@ import { AuthContext } from '../context/auth'
 
 import { useParams, Link } from 'react-router-dom'
 
-
-export default function GetCallerId(props){
+export default function GetCallerId({ onSocketIdChange }){
     const { user } = useContext(AuthContext);
     const storedToken = localStorage.getItem('authToken');
     const { me, callAccepted, name, setName, callEnded, leaveCall, callUser } = useContext(SocketContext);
@@ -33,7 +32,9 @@ export default function GetCallerId(props){
       // setUsername(username)
       // setFriends(friends)
       setSocketId(socketId)
-      console.log('calling socker ID number', socketId)
+      // Pass the socket ID to the parent component
+      onSocketIdChange(socketId)
+      console.log('calling socket ID number', socketId)
   })
   .catch(err => console.log(err))
       };

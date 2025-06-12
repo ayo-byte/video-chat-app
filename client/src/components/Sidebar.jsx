@@ -6,17 +6,6 @@ import { Assignment, Phone, PhoneDisabled } from '@material-ui/icons';
 import { SocketContext } from '../context/socket';
 import { AuthContext } from '../context/auth'
 
-// export default function Sidebar() {
-//   const { user } = useContext(AuthContext);
-//   const storedToken = localStorage.getItem('authToken');
-//   const { me, callAccepted, name, setName, callEnded, leaveCall, callUser } = useContext(SocketContext);
-//   // const [idToCall, setIdToCall] = useState('');
-//   // const classes = useStyles();
-//   const [username, setUsername] = useState('')
-//   const [friends, setFriends] = useState('')
-//   const [socketId, setSocketId] = useState('')
-//   const [idToCall, setIdToCall] = useState('');
-
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -35,19 +24,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('xs')]: {
       width: '300px',
     },
-    //[theme.breakpoints.down('xs')]: {
-      //flexDirection: 'column',
-      //width: '80%',
-  //  },
   },
-  // container: {
-  //   width: '600px',
-  //   margin: '35px 0',
-  //   padding: 0,
-  //   [theme.breakpoints.down('xs')]: {
-  //     width: '80%',
-  //   },
-  // },
   margin: {
     marginTop: 20,
   },
@@ -59,83 +36,83 @@ const useStyles = makeStyles((theme) => ({
     border: '1px solid gray',
     margin: '0 auto'
   },
+  error: {
+    color: 'red',
+    marginTop: 10
+  }
 }));
 
-// const getCallerId = (e) => {
-//   e.preventDefault();
-//   // send a post request with the data from the state to the server
-//   //to create new friend
-//   const requestBody = { username: username };
-//   console.log('the body', requestBody);
-//     axios.get(`/api/userprofile/${username}`
-//     , {
-//       headers: { Authorization: `Bearer ${storedToken}` },
-//     }
-//     )
-//   .then(response => {
-//       console.log('response is the following',response.data)
-//       const {socketId} = response.data
-//       // setUsername(username)
-//       // setFriends(friends)
-//       setSocketId(socketId)
-//       console.log('calling socker ID number', socketId)
-//       //callUser(socketId)
-//   })
-//   .catch(err => console.log(err))
-// };
-
-// function callUsername (userToCall){
-  //get user
-
-//     const [socketId, setSocketId] = useState('')
-//     const storedToken = localStorage.getItem('authToken');
-
-//     axios.get(`/api/userprofile/${userToCall}`, {
-//       headers: { Authorization: `Bearer ${storedToken}` },
-//     })
-//   .then(response => {
-//       console.log('response is the following',response.data)
-//       const {socketId} = response.data
-//       // setUsername(username)
-//       // setFriends(friends)
-//       setSocketId(socketId)
-//       console.log('blablablablablbalba', socketId)
-//       callUser(socketId)
-
-//   })
-//   .catch(err => console.log(err))
-// }
-
 const Sidebar = ({ children }) => {
-const { me, callAccepted, name, setName, callEnded, leaveCall, callUser } = useContext(SocketContext);
- const [idToCall, setIdToCall] = useState('');
- const classes = useStyles();
+  const { me, callAccepted, name, setName, callEnded, leaveCall, callUser } = useContext(SocketContext);
+  const { user } = useContext(AuthContext);
+  const storedToken = localStorage.getItem('authToken');
+  const [username, setUsername] = useState('');
+  const [error, setError] = useState('');
+  const classes = useStyles();
+
+  const handleCall = async (e) => {
+    e.preventDefault();
+    setError('');
+
+    if (!username.trim()) {
+      setError('Please enter a username');
+      return;
+    }
+
+    try {
+      const response = await axios.get(`/api/userprofile/${username}`, {
+        headers: { Authorization: `Bearer ${storedToken}` },
+      });
+
+      const { socketId } = response.data;
+      
+      if (!socketId) {
+        setError('User is not online');
+        return;
+      }
+
+      callUser(socketId);
+    } catch (err) {
+      console.error('Error calling user:', err);
+      setError('User not found or error occurred');
+    }
+  };
 
   return (
     <Container className={classes.container}>
       <Paper elevation={10} className={classes.paper}>
-      {/* <h1>Get Caller ID</h1> */}
-            {/* <form onSubmit={getCallerId}>
-                <label className="spacing" htmlFor="username">Username: </label>
-               <input className="spacing input-border" id="name" type="text" placeholder="Type friend's username..." value={username} onChange={e => setUsername(e.target.value)}/>
-                <br></br>
-               <button type="submit">Get Caller ID</button>
-           </form>
-           ID to call is: {socketId} (Copy to call) */}
-        <form className={classes.root} noValidate autoComplete="off">
+        <form className={classes.root} noValidate autoComplete="off" onSubmit={handleCall}>
           <Grid container className={classes.gridContainer}>
             <Grid item xs={12} md={6} className={classes.padding}>
-
-            
               <Typography gutterBottom variant="h6">Make a call</Typography>
-              
-              <TextField label="ID to call" value={idToCall} onChange={(e) => setIdToCall(e.target.value)} fullWidth />
+              <TextField 
+                label="Username to call" 
+                value={username} 
+                onChange={(e) => setUsername(e.target.value)}
+                fullWidth 
+                error={!!error}
+                helperText={error}
+              />
               {callAccepted && !callEnded ? (
-                <Button variant="contained" color="secondary" startIcon={<PhoneDisabled fontSize="large" />} fullWidth onClick={leaveCall} className={classes.margin}>
+                <Button 
+                  variant="contained" 
+                  color="secondary" 
+                  startIcon={<PhoneDisabled fontSize="large" />} 
+                  fullWidth 
+                  onClick={leaveCall} 
+                  className={classes.margin}
+                >
                   Hang Up
                 </Button>
               ) : (
-                <Button variant="contained" color="" startIcon={<Phone fontSize="large" />} fullWidth onClick={() => callUser(idToCall)} className={classes.margin}>
+                <Button 
+                  variant="contained" 
+                  color="primary" 
+                  startIcon={<Phone fontSize="large" />} 
+                  fullWidth 
+                  type="submit"
+                  className={classes.margin}
+                >
                   Call
                 </Button>
               )}
